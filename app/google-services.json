@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "750835017028",
+    "project_id": "films-f25ad",
+    "storage_bucket": "films-f25ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750835017028:android:0d32834e69c1bf2541a311",
+        "android_client_info": {
+          "package_name": "com.example.films"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750835017028-srco0531hr5tlutb5l1s7huttlugk3qs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwjCyKMEpBElniW-RQbFQyrQ5aIXeuLQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750835017028-srco0531hr5tlutb5l1s7huttlugk3qs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
