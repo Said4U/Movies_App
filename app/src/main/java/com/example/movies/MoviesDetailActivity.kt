@@ -1,10 +1,11 @@
-package com.example.films
+package com.example.movies
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.films.data.MoviesApi
-import com.example.films.data.movies.OneMoviesData
+import com.example.movies.R
+import com.example.movies.data.MoviesApi
+import com.example.movies.data.movies.OneMoviesData
 import kotlinx.android.synthetic.main.activity_movies_detail.*
 import retrofit2.Call
 import retrofit2.Callback

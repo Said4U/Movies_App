@@ -1,4 +1,4 @@
-package com.example.films.data.movies
+package com.example.movies.data.movies
 
 data class OneMoviesData(
     val completed: Boolean,

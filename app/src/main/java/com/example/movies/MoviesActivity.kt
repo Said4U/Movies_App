@@ -1,13 +1,12 @@
-package com.example.films
+package com.example.movies
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.films.data.MoviesApi
-import com.example.films.data.movies.MoviesData
-import com.example.films.data.movies.OneMoviesData
+import com.example.movies.data.MoviesApi
+import com.example.movies.data.movies.MoviesData
 import kotlinx.android.synthetic.main.activity_movies.*
 import retrofit2.Call
 import retrofit2.Callback

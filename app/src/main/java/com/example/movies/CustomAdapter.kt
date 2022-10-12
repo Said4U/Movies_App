@@ -1,13 +1,12 @@
-package com.example.films
+package com.example.movies
 
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.films.data.movies.Item
+import com.example.movies.data.movies.Item
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_view_design.view.*
 

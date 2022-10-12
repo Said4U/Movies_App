@@ -1,4 +1,4 @@
-package com.example.films.data
+package com.example.movies.data
 
 import com.google.firebase.database.IgnoreExtraProperties
 

@@ -1,7 +1,7 @@
-package com.example.films.data
+package com.example.movies.data
 
-import com.example.films.data.movies.MoviesData
-import com.example.films.data.movies.OneMoviesData
+import com.example.movies.data.movies.MoviesData
+import com.example.movies.data.movies.OneMoviesData
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
