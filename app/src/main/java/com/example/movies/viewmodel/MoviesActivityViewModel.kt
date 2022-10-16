@@ -42,11 +42,13 @@ class MoviesActivityViewModel {
 
         moviesApi.getOneMovie(id).enqueue(object : Callback<OneMoviesData> {
             override fun onResponse(call: Call<OneMoviesData>, response: Response<OneMoviesData>) {
+                Log.i("Debug", "getMoviesDetail")
+
                 _moviesDetail.postValue(response.body())
             }
 
             override fun onFailure(call: Call<OneMoviesData>, t: Throwable) {
-                Log.e("TAG", t.message.toString())
+                Log.e("Debug", t.message.toString())
             }
         })
     }
