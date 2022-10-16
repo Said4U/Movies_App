@@ -1,4 +1,4 @@
-package com.example.movies.data
+package com.example.movies.repository
 
 import com.example.movies.data.movies.MoviesData
 import com.example.movies.data.movies.OneMoviesData
@@ -14,7 +14,8 @@ import java.util.concurrent.TimeUnit
 
 interface MoviesApi {
     @GET("/api/v2.2/films?order=RATING&type=ALL&ratingFrom=8&ratingTo=10&yearFrom=2012&yearTo=3000&page=4")
-    @Headers("Content-Type: application/json",
+    @Headers(
+        "accept: application/json",
         "X-API-KEY: 53746169-33b5-4540-854d-218df18cbb38")
     fun getMovies() : Call<MoviesData>
 
@@ -29,7 +30,7 @@ interface MoviesApi {
 
         fun create() : MoviesApi {
 
-            val okHttpClient: OkHttpClient = OkHttpClient.Builder().callTimeout(2, TimeUnit.SECONDS).build()
+            val okHttpClient: OkHttpClient = OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS).build()
 
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())

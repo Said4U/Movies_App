@@ -1,4 +1,4 @@
-package com.example.movies
+package com.example.movies.view.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movies.R
 import com.example.movies.data.movies.Item
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_view_design.view.*
@@ -26,8 +27,6 @@ class CustomAdapter(private val mList: List<Item>?, val mItemClickListener: Item
 
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        Log.i("Debug", "onBindViewHolder")
 
         Picasso.get().load(mList?.get(position)?.posterUrl).resize(500, 700).into(holder.imageView)
 
