@@ -1,5 +1,7 @@
 package com.example.movies.repository
 
+import android.provider.SyncStateContract
+import com.example.movies.Constants
 import com.example.movies.data.movies.MoviesData
 import com.example.movies.data.movies.OneMoviesData
 import okhttp3.OkHttpClient
@@ -16,12 +18,12 @@ interface MoviesApi {
     @GET("/api/v2.2/films?order=RATING&type=ALL&ratingFrom=8&ratingTo=10&yearFrom=2012&yearTo=3000&page=4")
     @Headers(
         "accept: application/json",
-        "X-API-KEY: 53746169-33b5-4540-854d-218df18cbb38")
+        "X-API-KEY: " + Constants.API_KEY )
     fun getMovies() : Call<MoviesData>
 
     @GET("/api/v2.2/films/{movieId}")
     @Headers("Content-Type: application/json",
-        "X-API-KEY: 53746169-33b5-4540-854d-218df18cbb38")
+        "X-API-KEY: " + Constants.API_KEY )
     fun getOneMovie(@Path("movieId") movieId: Int?) : Call<OneMoviesData>
 
     companion object {
