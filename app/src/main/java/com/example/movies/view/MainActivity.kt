@@ -1,16 +1,18 @@
 package com.example.movies.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.movies.R
 import com.example.movies.viewmodel.MainActivityViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,12 +28,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Timer().schedule(2000){
-//            openRegistrationScreen()
-            val moviesIntent = Intent(this@MainActivity, MoviesActivity::class.java)
-            startActivity(moviesIntent)
+        val intent = Intent()
+        intent.setClass(this, LaunchActivity::class.java)
+        startActivityForResult(intent, RESULT_OK);
+
+
+        val homeFragment = HomeFragment()
+        val favoritesFragment = FavoritesFragment()
+        val profileFragment = ProfileFragment()
+
+        setCurrentFragment(homeFragment)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.home -> setCurrentFragment(homeFragment)
+                R.id.favorites -> setCurrentFragment(favoritesFragment)
+                R.id.profile -> setCurrentFragment(profileFragment)
+
+            }
+            true
         }
     }
+
+    private fun setCurrentFragment(fragment: Fragment)=
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment,fragment)
+            commit()
+        }
 
     private fun openRegistrationScreen(){
 
@@ -55,8 +78,13 @@ class MainActivity : AppCompatActivity() {
                 mainActivityViewModel.writeNewUser(it.uid, it.email.toString())
                 mainActivityViewModel.getUser(it.uid)
             }
-            val moviesIntent = Intent(this, MoviesActivity::class.java)
+            val moviesIntent = Intent(this, MainActivity::class.java)
             startActivity(moviesIntent)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finishAffinity()
     }
 }

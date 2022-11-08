@@ -1,6 +1,8 @@
 package com.example.movies.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.movies.data.movies.Item
@@ -52,6 +54,5 @@ class MoviesActivityViewModel {
             }
         })
     }
-
 
 }

@@ -1,25 +1,26 @@
 package com.example.movies.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movies.R
 import com.example.movies.view.adapter.CustomAdapter
 import com.example.movies.viewmodel.MoviesActivityViewModel
-import kotlinx.android.synthetic.main.activity_movies.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class MoviesActivity : AppCompatActivity(), CustomAdapter.ItemClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), CustomAdapter.ItemClickListener {
+
 
     private val moviesActivityViewModel = MoviesActivityViewModel()
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movies)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         initObservers()
 
         moviesActivityViewModel.getMovies()
@@ -28,21 +29,16 @@ class MoviesActivity : AppCompatActivity(), CustomAdapter.ItemClickListener {
     private fun initObservers(){
         Log.i("Debug", "observeMovies")
         moviesActivityViewModel.apply {
-            movies.observe(this@MoviesActivity){
-                recyclerView.adapter = CustomAdapter(it, this@MoviesActivity)
+            movies.observe(viewLifecycleOwner){
+                recyclerView.adapter = CustomAdapter(it, this@HomeFragment)
                 Log.i("Debug", it.size.toString())
 
             }
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        this.finishAffinity()
-    }
-
     override fun onItemClick(id: Int) {
-        val moviesDetailIntent = Intent(this@MoviesActivity, MoviesDetailActivity::class.java)
+        val moviesDetailIntent = Intent(context, MoviesDetailActivity::class.java)
         moviesDetailIntent.putExtra("id", id)
         startActivity(moviesDetailIntent)
     }
