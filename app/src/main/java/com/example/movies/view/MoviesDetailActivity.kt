@@ -20,8 +20,13 @@ class MoviesDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movies_detail)
 
         initObservers()
-        val id = intent.extras?.getInt("id")
-        moviesActivityViewModel.getMoviesDetail(id)
+        val userId = intent.extras?.getString("userId")
+        val movieId = intent.extras?.getInt("movieId")
+        moviesActivityViewModel.getMoviesDetail(movieId!!.toInt())
+
+        add_favorites_btn.setOnClickListener {
+            moviesActivityViewModel.writeFavorites(userId!!, movieId.toString())
+        }
     }
 
     private fun initObservers() {
@@ -45,4 +50,6 @@ class MoviesDetailActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

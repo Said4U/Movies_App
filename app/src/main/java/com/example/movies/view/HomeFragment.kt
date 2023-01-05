@@ -17,13 +17,23 @@ class HomeFragment : Fragment(R.layout.fragment_home), CustomAdapter.ItemClickLi
 
     private val moviesActivityViewModel = MoviesActivityViewModel()
 
+
+    companion object{
+        fun getNewInstance(userId: Bundle?): HomeFragment {
+            val homeFragment = HomeFragment()
+            homeFragment.arguments = userId
+            return homeFragment
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         initObservers()
 
-        moviesActivityViewModel.getMovies()
+        moviesActivityViewModel.getMovies(2, 2014)
+
     }
 
     private fun initObservers(){
@@ -39,7 +49,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CustomAdapter.ItemClickLi
 
     override fun onItemClick(id: Int) {
         val moviesDetailIntent = Intent(context, MoviesDetailActivity::class.java)
-        moviesDetailIntent.putExtra("id", id)
+        moviesDetailIntent.putExtra("userId", arguments?.get("id") as String)
+        moviesDetailIntent.putExtra("movieId", id)
         startActivity(moviesDetailIntent)
     }
 }

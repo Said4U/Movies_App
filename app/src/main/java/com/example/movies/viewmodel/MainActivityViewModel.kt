@@ -13,4 +13,6 @@ class MainActivityViewModel {
     fun getUser(userId: String) {
         firebaseRepository.getUser(userId)
     }
+
+
 }

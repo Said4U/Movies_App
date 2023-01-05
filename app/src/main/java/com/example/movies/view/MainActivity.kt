@@ -2,7 +2,7 @@ package com.example.movies.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.movies.R
@@ -11,12 +11,17 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
     private val mainActivityViewModel = MainActivityViewModel()
+
+    lateinit var favoritesFragment : FavoritesFragment
+    lateinit var homeFragment : HomeFragment
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -32,12 +37,12 @@ class MainActivity : AppCompatActivity() {
         intent.setClass(this, LaunchActivity::class.java)
         startActivityForResult(intent, RESULT_OK);
 
+        openRegistrationScreen()
 
-        val homeFragment = HomeFragment()
-        val favoritesFragment = FavoritesFragment()
+
+
         val profileFragment = ProfileFragment()
 
-        setCurrentFragment(homeFragment)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -50,9 +55,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCurrentFragment(fragment: Fragment)=
+    private fun setCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flFragment,fragment)
+            replace(R.id.flFragment, fragment)
             commit()
         }
 
@@ -73,13 +78,18 @@ class MainActivity : AppCompatActivity() {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
-            val user = FirebaseAuth.getInstance().currentUser
-            user?.let {
+            val user = FirebaseAuth.getInstance().currentUser!!
+
+            val bundle = Bundle()
+            bundle.putString("id", user.uid)
+            favoritesFragment = FavoritesFragment.getNewInstance(bundle)
+            homeFragment = HomeFragment.getNewInstance(bundle)
+            setCurrentFragment(homeFragment)
+
+            user.let {
                 mainActivityViewModel.writeNewUser(it.uid, it.email.toString())
                 mainActivityViewModel.getUser(it.uid)
             }
-            val moviesIntent = Intent(this, MainActivity::class.java)
-            startActivity(moviesIntent)
         }
     }
 
@@ -87,4 +97,5 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
         this.finishAffinity()
     }
+
 }

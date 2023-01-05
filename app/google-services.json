@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "750835017028",
+    "firebase_url": "https://films-f25ad-default-rtdb.firebaseio.com",
     "project_id": "films-f25ad",
     "storage_bucket": "films-f25ad.appspot.com"
   },
