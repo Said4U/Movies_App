@@ -1,5 +1,5 @@
 ### Android приложение "Справочная система кинофильмов".
-
+#### Функционал приложения: просмотр информации о фильмах; добавление и удалление фильмов из Избранных.  
 - <u>Kotlin
 - MVVM</u>
 - [API](https://kinopoiskapiunofficial.tech/documentation/api/#/films)
