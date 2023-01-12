@@ -39,13 +39,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CustomAdapter.ItemClickLi
             object : OnBackPressedCallback(true)
             {
                 override fun handleOnBackPressed() {
-                    // Leave empty do disable back press or
-                    // write your code which you want
 //                    fragmentManager?.popBackStackImmediate()
                     initObservers()
-                    Log.i("back22", "back")
-
-
                 }
             }
 

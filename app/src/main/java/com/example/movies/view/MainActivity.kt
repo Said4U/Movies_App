@@ -2,7 +2,6 @@ package com.example.movies.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.movies.R
@@ -11,15 +10,8 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import android.app.PendingIntent
-
-import android.os.Build
-
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,13 +31,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         val intent = Intent()
         intent.setClass(this, LaunchActivity::class.java)
         startActivityForResult(intent, RESULT_OK);
 
-        openRegistrationScreen()
+        val idPref = getSharedPreferences("MySharedPref", MODE_PRIVATE)
 
+        val userID = idPref.getString("userId", "")
+        if (userID == ""){
+            openRegistrationScreen()
+        }else{
+            val bundle = Bundle()
+            bundle.putString("id", userID)
+            favoritesFragment = FavoritesFragment.getNewInstance(bundle)
+            homeFragment = HomeFragment.getNewInstance(bundle)
+            setCurrentFragment(homeFragment)
+        }
 
 
         val profileFragment = ProfileFragment()
@@ -86,6 +87,10 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser!!
+
+            val idPrefEdit = getSharedPreferences("MySharedPref", MODE_PRIVATE).edit()
+            idPrefEdit.putString("userId", user.uid);
+            idPrefEdit.apply()
 
             val bundle = Bundle()
             bundle.putString("id", user.uid)
