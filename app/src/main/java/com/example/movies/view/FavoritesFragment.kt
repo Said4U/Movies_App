@@ -1,9 +1,11 @@
 package com.example.movies.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movies.R
@@ -26,6 +28,25 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
 
         }
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true)
+            {
+                override fun handleOnBackPressed() {
+                    // Leave empty do disable back press or
+                    // write your code which you want
+                    fragmentManager?.popBackStackImmediate()
+                    Log.i("back22", "back")
+
+
+                }
+            }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,6 +54,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
         initObservers()
 
         moviesActivityViewModel.getFavorites(arguments?.get("id") as String)
+
     }
 
 

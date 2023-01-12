@@ -14,6 +14,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import android.app.PendingIntent
+
+import android.os.Build
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         val intent = Intent()
         intent.setClass(this, LaunchActivity::class.java)
@@ -92,10 +99,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        this.finishAffinity()
-    }
-
 }

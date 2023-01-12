@@ -1,8 +1,11 @@
 package com.example.movies.viewmodel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.movies.data.Film
+import com.example.movies.data.SearchMovie
 import com.example.movies.data.movies.Item
 import com.example.movies.data.movies.MoviesData
 import com.example.movies.data.movies.OneMoviesData
@@ -24,6 +27,9 @@ class MoviesActivityViewModel {
 
     private  val _moviesDetailList = MutableLiveData<List<OneMoviesData>>()
     val moviesDetailList : LiveData<List<OneMoviesData>> = _moviesDetailList
+
+    private  val _moviesSearch = MutableLiveData<List<Film>>()
+    val moviesSearch : LiveData<List<Film>> = _moviesSearch
 
     private var moviesApi = MoviesApi.create()
 
@@ -80,15 +86,22 @@ class MoviesActivityViewModel {
                     override fun onFailure(call: Call<OneMoviesData>, t: Throwable) {
                         Log.e("Debug", t.message.toString())
                     }
-
                 })
-
             }
         }
+    }
 
+    fun getSearchMovie(keyword : String){
 
+        moviesApi.getSearchMovie(keyword).enqueue(object : Callback<SearchMovie> {
+            override fun onResponse(call: Call<SearchMovie>, response: Response<SearchMovie>) {
+                _moviesSearch.postValue(response.body()!!.films)
+            }
 
-
+            override fun onFailure(call: Call<SearchMovie>, t: Throwable) {
+                Log.e("Debug", t.message.toString())
+            }
+        })
     }
 
 }
