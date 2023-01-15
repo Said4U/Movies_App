@@ -67,7 +67,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CustomAdapter.ItemClickLi
     }
 
     private fun initObservers(){
-        moviesActivityViewModel.getMovies(2, 2014)
+        moviesActivityViewModel.getMovies(2)
         Log.i("Debug", "observeMovies")
         moviesActivityViewModel.apply {
             movies.observe(viewLifecycleOwner){

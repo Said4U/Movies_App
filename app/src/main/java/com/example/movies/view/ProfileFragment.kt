@@ -2,6 +2,8 @@ package com.example.movies.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userName.text = requireArguments().getString("name").toString()
+
         signOutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val idPrefEdit = requireActivity().getSharedPreferences("MySharedPref", AppCompatActivity.MODE_PRIVATE).edit()
@@ -25,6 +29,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
 
+        }
+    }
+
+    companion object{
+        fun getNewInstance(name: Bundle?): ProfileFragment {
+            val profileFragment = ProfileFragment()
+            profileFragment.arguments = name
+            return profileFragment
         }
     }
 

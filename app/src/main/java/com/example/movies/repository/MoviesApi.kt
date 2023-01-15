@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 
 interface MoviesApi {
-    @GET("/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000")
+    @GET("/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=2016&yearTo=3000")
     @Headers(
         "accept: application/json",
         "X-API-KEY: " + Constants.API_KEY )

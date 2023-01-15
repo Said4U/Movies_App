@@ -39,24 +39,29 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
                     // Leave empty do disable back press or
                     // write your code which you want
                     fragmentManager?.popBackStackImmediate()
-                    Log.i("back22", "back")
-
 
                 }
             }
 
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         recyclerViewFavorites.layoutManager = GridLayoutManager(requireContext(), 2)
-        initObservers()
-
-        moviesActivityViewModel.getFavorites(arguments?.get("id") as String)
-
     }
 
+    override fun onResume() {
+        super.onResume()
+        initObservers()
+        moviesActivityViewModel.getFavorites(arguments?.get("id") as String)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        moviesActivityViewModel.clearFavorites()
+    }
 
     private fun initObservers(){
         Log.i("Debug", "observeMovies")
@@ -72,7 +77,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
 
     override fun onItemClick(id: Int) {
         val moviesDetailIntent = Intent(context, MoviesDetailActivity::class.java)
-        moviesDetailIntent.putExtra("userId", id)
+        moviesDetailIntent.putExtra("userId", arguments?.get("id") as String)
         moviesDetailIntent.putExtra("movieId", id)
         startActivity(moviesDetailIntent)
     }

@@ -2,6 +2,7 @@ package com.example.movies.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.movies.R
@@ -10,6 +11,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -18,8 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     private val mainActivityViewModel = MainActivityViewModel()
 
-    lateinit var favoritesFragment : FavoritesFragment
-    lateinit var homeFragment : HomeFragment
+    private lateinit var favoritesFragment : FavoritesFragment
+    private lateinit var homeFragment : HomeFragment
+    private lateinit var profileFragment: ProfileFragment
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -38,18 +41,22 @@ class MainActivity : AppCompatActivity() {
         val idPref = getSharedPreferences("MySharedPref", MODE_PRIVATE)
 
         val userID = idPref.getString("userId", "")
+        val userName = idPref.getString("name", "")
+
         if (userID == ""){
             openRegistrationScreen()
         }else{
             val bundle = Bundle()
             bundle.putString("id", userID)
+            bundle.putString("name", userName)
             favoritesFragment = FavoritesFragment.getNewInstance(bundle)
             homeFragment = HomeFragment.getNewInstance(bundle)
+            profileFragment = ProfileFragment.getNewInstance(bundle)
+
             setCurrentFragment(homeFragment)
         }
 
 
-        val profileFragment = ProfileFragment()
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
@@ -88,14 +95,30 @@ class MainActivity : AppCompatActivity() {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser!!
 
+
+
+
+
             val idPrefEdit = getSharedPreferences("MySharedPref", MODE_PRIVATE).edit()
-            idPrefEdit.putString("userId", user.uid);
+            idPrefEdit.putString("userId", user.uid)
+            idPrefEdit.putString("name", user.displayName)
             idPrefEdit.apply()
 
             val bundle = Bundle()
             bundle.putString("id", user.uid)
+            bundle.putString("name", user.displayName)
+
+//            val profileUpdates = UserProfileChangeRequest.Builder()
+//                .setDisplayName("Шихсаид Шихсаидов").build()
+//
+//            user.updateProfile(profileUpdates).addOnCompleteListener {
+//                Log.i("name", user.displayName.toString())
+//            }
+
             favoritesFragment = FavoritesFragment.getNewInstance(bundle)
             homeFragment = HomeFragment.getNewInstance(bundle)
+            profileFragment = ProfileFragment.getNewInstance(bundle)
+
             setCurrentFragment(homeFragment)
 
             user.let {

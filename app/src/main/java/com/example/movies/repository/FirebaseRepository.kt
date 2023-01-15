@@ -37,6 +37,9 @@ class FirebaseRepository {
             Log.e("favorites", "Error getting data", it)
         }
 
+    fun removeFavorite(userId: String, movieId: String) {
+        database.child("favorites").child(userId).child(movieId).removeValue()
+    }
 
 
 }

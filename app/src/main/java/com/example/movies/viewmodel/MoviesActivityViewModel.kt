@@ -1,7 +1,6 @@
 package com.example.movies.viewmodel
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.movies.data.Film
@@ -31,10 +30,13 @@ class MoviesActivityViewModel {
     private  val _moviesSearch = MutableLiveData<List<Film>>()
     val moviesSearch : LiveData<List<Film>> = _moviesSearch
 
+    private  val _moviesIdList = MutableLiveData<MutableList<String>>()
+    val moviesIdList : LiveData<MutableList<String>> = _moviesIdList
+
     private var moviesApi = MoviesApi.create()
 
 
-    fun getMovies(page: Int, yearTo: Int){
+    fun getMovies(page: Int){
 
         moviesApi.getMovies(page).enqueue(object : Callback<MoviesData> {
             override fun onResponse(call: Call<MoviesData>, response: Response<MoviesData>) {
@@ -65,28 +67,49 @@ class MoviesActivityViewModel {
     }
 
     fun writeFavorites(userId: String, movieId: String) {
-
         firebaseRepository.writeFavorites(userId, movieId)
+    }
+
+    fun removeFavorite(userId: String, movieId: String) {
+        firebaseRepository.removeFavorite(userId, movieId)
+    }
+
+     fun getFavoritesID(userId: String){
+         firebaseRepository.getFavorites(userId).addOnCompleteListener {
+             if (it.result.value != null) {
+                 _moviesIdList.postValue((it.result.value as Map<String, String>).values.toMutableList())
+             }else{
+                 _moviesIdList.postValue(mutableListOf("null"))
+             }
+         }
+     }
+
+    fun clearFavorites(){
+        _moviesDetailList.postValue(mutableListOf())
     }
 
     fun getFavorites(userId: String) {
         firebaseRepository.getFavorites(userId).addOnCompleteListener {
-            val moviesIdLst = (it.result.value  as Map<String, String>).values.toMutableList()
-            Log.i("getFavorites", "getFavorites")
 
-            val moviesItemsLst = ArrayList<OneMoviesData>()
+            if (it.result.value != null){
+                val moviesIdLst = (it.result.value  as Map<String, String>).values.toMutableList()
 
-            for (movieId in moviesIdLst){
-                moviesApi.getOneMovie(movieId.toInt()).enqueue(object : Callback<OneMoviesData> {
-                    override fun onResponse(call: Call<OneMoviesData>, response: Response<OneMoviesData>) {
-                        Log.i("moviesIdLst", "3 $moviesItemsLst")
-                        moviesItemsLst.add(response.body()!!)
-                        _moviesDetailList.postValue(moviesItemsLst)
-                    }
-                    override fun onFailure(call: Call<OneMoviesData>, t: Throwable) {
-                        Log.e("Debug", t.message.toString())
-                    }
-                })
+                val moviesItemsLst = ArrayList<OneMoviesData>()
+
+                for (movieId in moviesIdLst){
+                    moviesApi.getOneMovie(movieId.toInt()).enqueue(object : Callback<OneMoviesData> {
+                        override fun onResponse(call: Call<OneMoviesData>, response: Response<OneMoviesData>) {
+                            moviesItemsLst.add(response.body()!!)
+                            _moviesDetailList.postValue(moviesItemsLst)
+                        }
+                        override fun onFailure(call: Call<OneMoviesData>, t: Throwable) {
+                            Log.e("Debug", t.message.toString())
+                        }
+                    })
+                }
+            }else{
+                _moviesDetailList.postValue(mutableListOf())
+
             }
         }
     }
