@@ -1,4 +1,4 @@
-package com.example.movies.data
+package com.example.movies.data.movies
 
 import com.example.movies.data.movies.Country
 import com.example.movies.data.movies.Genre

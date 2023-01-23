@@ -18,6 +18,18 @@
             android:gravity="center">
         </TextView>
 
+        <TextView
+            android:id="@+id/movies_mark"
+            android:layout_width="37dp"
+            android:layout_height="23dp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="75dp"
+            android:layout_marginStart="10dp"
+            android:elevation="4dp"
+            android:gravity="center">
+        </TextView>
+
         <ImageView
             android:id="@+id/imageview"
             android:layout_width="wrap_content"

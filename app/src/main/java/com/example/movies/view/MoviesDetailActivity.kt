@@ -1,17 +1,19 @@
 package com.example.movies.view
 
-import android.annotation.SuppressLint
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.MediaController
+import android.widget.VideoView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import com.example.movies.R
 import com.example.movies.viewmodel.MoviesActivityViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_movies_detail.*
+
 
 class MoviesDetailActivity : AppCompatActivity() {
 
@@ -24,8 +26,22 @@ class MoviesDetailActivity : AppCompatActivity() {
         val userId = intent.extras!!.getString("userId").toString()
         val movieId = intent.extras!!.getInt("movieId")
         moviesActivityViewModel.getMoviesDetail(movieId)
+        moviesActivityViewModel.getVideos(movieId)
 
         changeBtn(userId, movieId.toString())
+
+//        val mediaController = MediaController(this)
+
+//        videoView.setVideoURI(Uri.parse("https://abhiandroid.com/ui/wp-content/uploads/2016/04/videoviewtestingvideo.mp4"))
+//        videoView.setMediaController(mediaController)
+//        videoView.start()
+
+        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/6201401/b5835d7b-8d04-4eee-b191-68f3e09e980c/orig").fit().into(imageView1)
+        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/4774061/1f039ed0-4300-4ac5-88f6-2e05c010b90a/orig").fit().into(imageView2)
+        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/6201401/eebe5d21-ebc6-4e06-82db-d290af2a5bf2/orig").fit().into(imageView3)
+        Picasso.get().load("https://wallpapershome.ru/images/wallpapers/eyfeleva-bashnya-1920x1080-parij-franciya-puteshestviya-turizm-5398.jpg").resize(1100, 800).into(imageView4)
+
+
 
         add_favorites_btn.setOnClickListener {
             if (add_favorites_btn.text == "Удалить из избранного"){

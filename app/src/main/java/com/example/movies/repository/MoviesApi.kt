@@ -1,7 +1,8 @@
 package com.example.movies.repository
 
 import com.example.movies.Constants
-import com.example.movies.data.SearchMovie
+import com.example.movies.data.Video
+import com.example.movies.data.movies.SearchMovie
 import com.example.movies.data.movies.MoviesData
 import com.example.movies.data.movies.OneMoviesData
 import okhttp3.OkHttpClient
@@ -31,6 +32,11 @@ interface MoviesApi {
     @Headers("Content-Type: application/json",
         "X-API-KEY: " + Constants.API_KEY )
     fun getSearchMovie(@Query("keyword") keyword : String) : Call<SearchMovie>
+
+    @GET("/api/v2.2/films/{movieId}/videos")
+    @Headers("Content-Type: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getVideos(@Path("movieId") movieId: Int) : Call<Video>
 
     companion object {
 

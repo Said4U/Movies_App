@@ -4,4 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_favorites">В Избранное</string>
     <string name="sign_out">Выйти</string>
+    <string name="recommendation">Рекомендации</string>
+    <string name="top">Топ</string>
+    <string name="premiere">Премьеры</string>
 </resources>

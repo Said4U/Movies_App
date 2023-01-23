@@ -1,4 +1,6 @@
-package com.example.movies.data
+package com.example.movies.data.movies
+
+import com.example.movies.data.movies.Film
 
 data class SearchMovie(
     val films: List<Film>,
