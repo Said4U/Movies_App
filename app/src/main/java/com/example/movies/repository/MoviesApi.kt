@@ -5,6 +5,7 @@ import com.example.movies.data.Video
 import com.example.movies.data.movies.SearchMovie
 import com.example.movies.data.movies.MoviesData
 import com.example.movies.data.movies.OneMoviesData
+import com.example.movies.data.movies.TopMovies
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -37,6 +38,11 @@ interface MoviesApi {
     @Headers("Content-Type: application/json",
         "X-API-KEY: " + Constants.API_KEY )
     fun getVideos(@Path("movieId") movieId: Int) : Call<Video>
+
+    @GET("api/v2.2/films/top?page=1")
+    @Headers("Content-Type: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getTopMovies(@Query("type") type: String) : Call<TopMovies>
 
     companion object {
 

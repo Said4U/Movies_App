@@ -10,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.browser.customtabs.CustomTabsClient.getPackageName
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movies.R
 import com.example.movies.view.adapter.CustomAdapter
@@ -29,7 +32,7 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation), Custo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.i("replace", "Reccom")
+//        searchView.background = ResourcesCompat.getDrawable(resources, R.drawable.corners_white, null)
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         initObservers()

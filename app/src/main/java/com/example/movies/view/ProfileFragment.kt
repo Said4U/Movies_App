@@ -1,6 +1,7 @@
 package com.example.movies.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -9,8 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.toColor
 import com.example.movies.R
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.card_view_design.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
@@ -28,8 +34,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
-
         }
+
+        nightSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) setNightTheme()
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    private fun setNightTheme(){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 
     companion object{

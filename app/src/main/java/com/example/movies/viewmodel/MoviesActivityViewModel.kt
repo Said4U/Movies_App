@@ -5,11 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.movies.data.Video
 import com.example.movies.data.VideoItem
-import com.example.movies.data.movies.Film
-import com.example.movies.data.movies.SearchMovie
-import com.example.movies.data.movies.Item
-import com.example.movies.data.movies.MoviesData
-import com.example.movies.data.movies.OneMoviesData
+import com.example.movies.data.movies.*
 import com.example.movies.repository.FirebaseRepository
 import com.example.movies.repository.MoviesApi
 import retrofit2.Call
@@ -37,6 +33,9 @@ class MoviesActivityViewModel {
 
     private  val _video = MutableLiveData<List<VideoItem>>()
     val video : LiveData<List<VideoItem>> = _video
+
+    private  val _moviesTop = MutableLiveData<List<Film>>()
+    val moviesTop : LiveData<List<Film>> = _moviesTop
 
     private var moviesApi = MoviesApi.create()
 
@@ -140,6 +139,19 @@ class MoviesActivityViewModel {
             }
 
             override fun onFailure(call: Call<Video>, t: Throwable) {
+                Log.e("Debug", t.message.toString())
+            }
+        })
+    }
+
+    fun getTopMovies(topType : String){
+
+        moviesApi.getTopMovies(topType).enqueue(object : Callback<TopMovies> {
+            override fun onResponse(call: Call<TopMovies>, response: Response<TopMovies>) {
+                _moviesTop.postValue(response.body()!!.films)
+            }
+
+            override fun onFailure(call: Call<TopMovies>, t: Throwable) {
                 Log.e("Debug", t.message.toString())
             }
         })

@@ -7,4 +7,6 @@
     <string name="recommendation">Рекомендации</string>
     <string name="top">Топ</string>
     <string name="premiere">Премьеры</string>
+    <string name="nightTheme">Ночная тема</string>
+    <string name="topFilms">Топ 250 лучших фильмов</string>
 </resources>
