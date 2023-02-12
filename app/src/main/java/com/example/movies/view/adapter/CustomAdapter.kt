@@ -13,6 +13,9 @@ import com.example.movies.R
 import com.example.movies.data.movies.Item
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.card_view_design.view.*
+import kotlinx.android.synthetic.main.card_view_design.view.movies_name
+import kotlinx.android.synthetic.main.card_view_premiere.view.*
+import kotlinx.android.synthetic.main.top_card_design.view.*
 
 class CustomAdapter(private val mList: List<Item>?, val mItemClickListener: ItemClickListener) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
@@ -37,7 +40,7 @@ class CustomAdapter(private val mList: List<Item>?, val mItemClickListener: Item
 
         val movieMark = mList?.get(position)?.ratingKinopoisk
 
-        if (movieMark == null){
+        if (movieMark == null || movieMark == 0.0){
             holder.itemView.movies_mark.visibility = View.INVISIBLE
         }else{
             holder.itemView.movies_mark.visibility = View.VISIBLE
@@ -51,6 +54,7 @@ class CustomAdapter(private val mList: List<Item>?, val mItemClickListener: Item
             }
         }
 
+        holder.itemView.movies_name.setTextColor(Color.WHITE)
 
         var name = mList?.get(position)?.nameRu.toString()
         if (name == "null"){
@@ -60,6 +64,11 @@ class CustomAdapter(private val mList: List<Item>?, val mItemClickListener: Item
             holder.itemView.movies_name.textSize = 14F
         }
         holder.itemView.movies_name.text = name
+        
+        if (mList?.get(position)?.genres!!.isNotEmpty()) {
+            holder.itemView.movies_genre.text = mList[position].genres[0].genre
+        }
+        holder.itemView.movies_year.text = mList[position].year.toString()
     }
 
     // return the number of the videoItems in the list

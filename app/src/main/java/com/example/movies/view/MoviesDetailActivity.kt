@@ -36,10 +36,10 @@ class MoviesDetailActivity : AppCompatActivity() {
 //        videoView.setMediaController(mediaController)
 //        videoView.start()
 
-        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/6201401/b5835d7b-8d04-4eee-b191-68f3e09e980c/orig").fit().into(imageView1)
-        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/4774061/1f039ed0-4300-4ac5-88f6-2e05c010b90a/orig").fit().into(imageView2)
-        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/6201401/eebe5d21-ebc6-4e06-82db-d290af2a5bf2/orig").fit().into(imageView3)
-        Picasso.get().load("https://wallpapershome.ru/images/wallpapers/eyfeleva-bashnya-1920x1080-parij-franciya-puteshestviya-turizm-5398.jpg").resize(1100, 800).into(imageView4)
+//        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/6201401/b5835d7b-8d04-4eee-b191-68f3e09e980c/orig").fit().into(imageView1)
+//        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/4774061/1f039ed0-4300-4ac5-88f6-2e05c010b90a/orig").fit().into(imageView2)
+//        Picasso.get().load("https://avatars.mds.yandex.net/get-kinopoisk-image/6201401/eebe5d21-ebc6-4e06-82db-d290af2a5bf2/orig").fit().into(imageView3)
+//        Picasso.get().load("https://wallpapershome.ru/images/wallpapers/eyfeleva-bashnya-1920x1080-parij-franciya-puteshestviya-turizm-5398.jpg").resize(1100, 800).into(imageView4)
 
 
 
@@ -64,7 +64,7 @@ class MoviesDetailActivity : AppCompatActivity() {
     }
 
     private fun changeBtnBlue(){
-        add_favorites_btn.setBackgroundColor(ContextCompat.getColor(this@MoviesDetailActivity, R.color.purple_700))
+        add_favorites_btn.setBackgroundColor(ContextCompat.getColor(this@MoviesDetailActivity, R.color.orange))
         add_favorites_btn.setText("В избранное")
     }
 

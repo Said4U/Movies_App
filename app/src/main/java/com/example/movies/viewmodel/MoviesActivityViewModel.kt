@@ -11,6 +11,7 @@ import com.example.movies.repository.MoviesApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.Year
 
 class MoviesActivityViewModel {
 
@@ -37,6 +38,13 @@ class MoviesActivityViewModel {
     private  val _moviesTop = MutableLiveData<List<Film>>()
     val moviesTop : LiveData<List<Film>> = _moviesTop
 
+    private  val _moviesPremieres = MutableLiveData<List<Item>>()
+    val moviesPremieres : LiveData<List<Item>> = _moviesPremieres
+
+    private var moviesRecommendationSave = listOf<Item>()
+
+    private var moviesTopSave = listOf<Film>()
+
     private var moviesApi = MoviesApi.create()
 
 
@@ -45,8 +53,8 @@ class MoviesActivityViewModel {
         moviesApi.getMovies(page).enqueue(object : Callback<MoviesData> {
             override fun onResponse(call: Call<MoviesData>, response: Response<MoviesData>) {
                 Log.i("Debug", "getMovies")
-                _movies.postValue(response.body()?.items)
-
+                moviesRecommendationSave = moviesRecommendationSave + response.body()!!.items
+                _movies.postValue(moviesRecommendationSave)
             }
 
             override fun onFailure(call: Call<MoviesData>, t: Throwable) {
@@ -144,14 +152,28 @@ class MoviesActivityViewModel {
         })
     }
 
-    fun getTopMovies(topType : String){
+    fun getTopMovies(topType : String, page: Int){
 
-        moviesApi.getTopMovies(topType).enqueue(object : Callback<TopMovies> {
+        moviesApi.getTopMovies(topType, page).enqueue(object : Callback<TopMovies> {
             override fun onResponse(call: Call<TopMovies>, response: Response<TopMovies>) {
-                _moviesTop.postValue(response.body()!!.films)
+                moviesTopSave = moviesTopSave + response.body()!!.films
+                _moviesTop.postValue(moviesTopSave)
             }
 
             override fun onFailure(call: Call<TopMovies>, t: Throwable) {
+                Log.e("Debug", t.message.toString())
+            }
+        })
+    }
+
+    fun getPremieres(year : String, month: String){
+
+        moviesApi.getPremieres(year, month).enqueue(object : Callback<Premieres> {
+            override fun onResponse(call: Call<Premieres>, response: Response<Premieres>) {
+                _moviesPremieres.postValue(response.body()?.items)
+            }
+
+            override fun onFailure(call: Call<Premieres>, t: Throwable) {
                 Log.e("Debug", t.message.toString())
             }
         })

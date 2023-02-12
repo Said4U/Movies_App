@@ -37,20 +37,37 @@ class TopAdapter(private val mList: List<Film>?, val mItemClickListener: ItemCli
         Picasso.get().load(mList?.get(position)?.posterUrl).fit().into(holder.imageView)
 
 
-        val movieMark = mList?.get(position)?.rating
+        var movieMark = mList?.get(position)?.rating
 
         if (movieMark == null){
             holder.itemView.top_movies_mark.visibility = View.INVISIBLE
-        }else{
+        }
+        else{
             holder.itemView.top_movies_mark.visibility = View.VISIBLE
-            holder.itemView.top_movies_mark.text = movieMark.toString()
             holder.itemView.top_movies_mark.setTextColor(Color.WHITE)
 
-            when(movieMark.toDouble()){
-                in 7.0..10.0 -> holder.itemView.top_movies_mark.setBackgroundColor(Color.parseColor("#32CD32"))
-                in 5.0..6.9 -> holder.itemView.top_movies_mark.setBackgroundColor(Color.GRAY)
-                else -> holder.itemView.top_movies_mark.setBackgroundColor(Color.RED)
+            if (movieMark.contains("%")){
+                if (movieMark.length > 4){
+                    movieMark = movieMark.substring(0, movieMark.length - 3)
+                }else{
+                    movieMark = movieMark.substring(0, movieMark.length - 1)
+                }
+                when(movieMark.toInt()){
+                    in 70..100 -> holder.itemView.top_movies_mark.setBackgroundColor(Color.parseColor("#32CD32"))
+                    in 50..69 -> holder.itemView.top_movies_mark.setBackgroundColor(Color.GRAY)
+                    else -> holder.itemView.top_movies_mark.setBackgroundColor(Color.RED)
+                }
+                movieMark = "$movieMark%"
+
+            }else{
+                when(movieMark.toDouble()){
+                    in 7.0..10.0 -> holder.itemView.top_movies_mark.setBackgroundColor(Color.parseColor("#32CD32"))
+                    in 5.0..6.9 -> holder.itemView.top_movies_mark.setBackgroundColor(Color.GRAY)
+                    else -> holder.itemView.top_movies_mark.setBackgroundColor(Color.RED)
+                }
             }
+            holder.itemView.top_movies_mark.text = movieMark.toString()
+
         }
 
 
@@ -71,7 +88,7 @@ class TopAdapter(private val mList: List<Film>?, val mItemClickListener: ItemCli
         mList?.get(position)?.countries?.let {
             holder.itemView.top_movies_country_year.text = it[0].country + " • " + mList[position].year
             if(it.size > 1){
-                holder.itemView.top_movies_country_year.text = it[0].country + " , " + it[1].country + " • " + mList[position].year
+                holder.itemView.top_movies_country_year.text = it[0].country + ", " + it[1].country + " • " + mList[position].year
             }
         }
     }

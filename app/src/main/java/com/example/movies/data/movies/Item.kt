@@ -13,5 +13,6 @@ data class Item(
     val ratingImdb: Double,
     val ratingKinopoisk: Double,
     val type: String,
-    val year: Int
+    val year: Int,
+    val premiereRu: String
 )

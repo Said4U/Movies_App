@@ -2,10 +2,7 @@ package com.example.movies.repository
 
 import com.example.movies.Constants
 import com.example.movies.data.Video
-import com.example.movies.data.movies.SearchMovie
-import com.example.movies.data.movies.MoviesData
-import com.example.movies.data.movies.OneMoviesData
-import com.example.movies.data.movies.TopMovies
+import com.example.movies.data.movies.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -18,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 
 interface MoviesApi {
-    @GET("/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=2016&yearTo=3000")
+    @GET("/api/v2.2/films?countries=1&genres=1&order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=2012&yearTo=3000")
     @Headers(
         "accept: application/json",
         "X-API-KEY: " + Constants.API_KEY )
@@ -39,10 +36,17 @@ interface MoviesApi {
         "X-API-KEY: " + Constants.API_KEY )
     fun getVideos(@Path("movieId") movieId: Int) : Call<Video>
 
-    @GET("api/v2.2/films/top?page=1")
+    @GET("api/v2.2/films/top")
     @Headers("Content-Type: application/json",
         "X-API-KEY: " + Constants.API_KEY )
-    fun getTopMovies(@Query("type") type: String) : Call<TopMovies>
+    fun getTopMovies(@Query("type") type: String,
+                     @Query("page") page: Int) : Call<TopMovies>
+
+    @GET("/api/v2.2/films/premieres")
+    @Headers("Content-Type: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getPremieres(@Query("year") year: String,
+                     @Query("month") month: String) : Call<Premieres>
 
     companion object {
 

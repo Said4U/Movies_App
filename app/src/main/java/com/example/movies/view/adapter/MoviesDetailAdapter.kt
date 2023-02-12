@@ -49,6 +49,7 @@ class MoviesDetailAdapter(private val mList: List<OneMoviesData>?, val mItemClic
                 else -> holder.itemView.movies_mark.setBackgroundColor(Color.RED)
             }
         }
+        holder.itemView.movies_name.setTextColor(Color.WHITE)
 
         var name = mList?.get(position)?.nameRu.toString()
         if (name == "null"){
@@ -58,6 +59,11 @@ class MoviesDetailAdapter(private val mList: List<OneMoviesData>?, val mItemClic
             holder.itemView.movies_name.textSize = 14F
         }
         holder.itemView.movies_name.text = name
+
+        if (mList?.get(position)?.genres!!.isNotEmpty()) {
+            holder.itemView.movies_genre.text = mList[position].genres[0].genre
+        }
+        holder.itemView.movies_year.text = mList[position].year.toString()
     }
 
     // return the number of the videoItems in the list

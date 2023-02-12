@@ -4,28 +4,29 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.example.movies.view.MoviesDetailActivity
-import com.example.movies.view.adapter.CustomAdapter
+import com.example.movies.view.ProfileFragment
 import com.example.movies.view.adapter.SearchMovieAdapter
 import com.example.movies.view.adapter.TopAdapter
-import com.example.movies.view.top.CardTopFragment
-import com.example.movies.view.top.TopFragment
 import com.example.movies.viewmodel.MoviesActivityViewModel
 import kotlinx.android.synthetic.main.fragment_best_top.*
 import kotlinx.android.synthetic.main.fragment_recommendation.*
+
 
 class BestTopFragment : Fragment(R.layout.fragment_best_top), TopAdapter.ItemClickListener,
 SearchMovieAdapter.ItemClickListener {
 
 
     private val moviesActivityViewModel = MoviesActivityViewModel()
+
+    var count = 1
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,14 +51,27 @@ SearchMovieAdapter.ItemClickListener {
 
         initObservers()
 
+        recyclerViewTop.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+                    if (count < 13){
+                        count++
+                        moviesActivityViewModel.getTopMovies(requireArguments().getString("top")!!, count)
+                    }
+                }
+            }
+        })
     }
 
     private fun initObservers(){
-        moviesActivityViewModel.getTopMovies("TOP_250_BEST_FILMS")
+        moviesActivityViewModel.getTopMovies(requireArguments().getString("top")!!, 1)
         Log.i("Debug", "observeMovies")
         moviesActivityViewModel.apply {
             moviesTop.observe(viewLifecycleOwner){
+                val recyclerViewState = recyclerViewTop.layoutManager!!.onSaveInstanceState()
                 recyclerViewTop.adapter = TopAdapter(it, this@BestTopFragment)
+                recyclerViewTop.layoutManager!!.onRestoreInstanceState(recyclerViewState)
                 Log.i("topSize", it.size.toString())
 
             }
@@ -72,6 +86,10 @@ SearchMovieAdapter.ItemClickListener {
     }
 
     companion object {
-        fun newInstance() = BestTopFragment()
+        fun newInstance(topName: Bundle?): BestTopFragment {
+            val bestTopFragment = BestTopFragment()
+            bestTopFragment.arguments = topName
+            return bestTopFragment
+        }
     }
 }

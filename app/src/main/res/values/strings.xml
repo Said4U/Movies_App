@@ -9,4 +9,25 @@
     <string name="premiere">Премьеры</string>
     <string name="nightTheme">Ночная тема</string>
     <string name="topFilms">Топ 250 лучших фильмов</string>
+    <string name="topPopular">Топ 100 самых популярных фильмов</string>
+    <string name="topAwait">Топ самых ожидаемых фильмов</string>
+    <string-array name="year">
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+    </string-array>
+    <string-array name="month">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
 </resources>
