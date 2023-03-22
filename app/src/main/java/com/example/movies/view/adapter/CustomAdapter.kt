@@ -64,11 +64,16 @@ class CustomAdapter(private val mList: List<Item>?, val mItemClickListener: Item
             holder.itemView.movies_name.textSize = 14F
         }
         holder.itemView.movies_name.text = name
-        
-        if (mList?.get(position)?.genres!!.isNotEmpty()) {
-            holder.itemView.movies_genre.text = mList[position].genres[0].genre
+
+        if (mList?.get(position)?.genres != null){
+            if (mList[position].genres.isNotEmpty()) {
+                holder.itemView.movies_genre.text = mList[position].genres[0].genre
+            }
+        } else {
+            holder.itemView.movies_genre.text = ""
         }
-        holder.itemView.movies_year.text = mList[position].year.toString()
+
+        holder.itemView.movies_year.text = mList?.get(position)?.year.toString()
     }
 
     // return the number of the videoItems in the list

@@ -12,5 +12,7 @@
     <color name="grey">#808080</color>
     <color name="red">#FF0000</color>
     <color name="orange">#FF8C00</color>
+    <color name="orangeRed">#FF4500</color>
+    <color name="wheat">#F5DEB3</color>
 
 </resources>

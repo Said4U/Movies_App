@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewTop"
             android:layout_width="300dp"
@@ -33,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="210dp"
                 android:layout_marginStart="5dp"
+                android:textColor="@color/white"
                 android:text="@string/topFilms"
                 android:textSize="18sp"
                 android:gravity="center">
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="230dp"
                 android:layout_marginStart="5dp"
+                android:textColor="@color/white"
                 android:text="@string/topPopular"
                 android:textSize="18sp"
                 android:gravity="center">
@@ -95,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="210dp"
                 android:layout_marginStart="5dp"
+                android:textColor="@color/white"
                 android:text="@string/topAwait"
                 android:textSize="18sp"
                 android:gravity="center">

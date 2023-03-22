@@ -82,7 +82,7 @@ class TopAdapter(private val mList: List<Film>?, val mItemClickListener: ItemCli
         mList?.get(position)?.genres?.let {
             holder.itemView.top_movies_genre.text = it[0].genre
             if(it.size > 1){
-                holder.itemView.top_movies_genre.text = it[0].genre + " , " + it[1].genre
+                holder.itemView.top_movies_genre.text = it[0].genre + ", " + it[1].genre
             }
         }
         mList?.get(position)?.countries?.let {

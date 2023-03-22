@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Movies</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_favorites">В Избранное</string>
     <string name="sign_out">Выйти</string>
     <string name="recommendation">Рекомендации</string>
@@ -11,6 +9,11 @@
     <string name="topFilms">Топ 250 лучших фильмов</string>
     <string name="topPopular">Топ 100 самых популярных фильмов</string>
     <string name="topAwait">Топ самых ожидаемых фильмов</string>
+    <string name="choiceText">Выберите 3 предпочитаемых жанра</string>
+    <string name="save">Сохранить</string>
+    <string name="changePreferences">Изменить предпочтения</string>
+    <string name="Interesting">Вам может быть интересно</string>
+    <string name="Favorites">Избранное</string>
     <string-array name="year">
         <item>2023</item>
         <item>2024</item>

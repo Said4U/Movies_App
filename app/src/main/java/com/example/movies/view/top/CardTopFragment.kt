@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.movies.R
-import com.example.movies.view.FavoritesFragment
-import com.example.movies.view.PremiereFragment
 import kotlinx.android.synthetic.main.fragment_card_top.*
 
 class CardTopFragment : Fragment(R.layout.fragment_card_top) {

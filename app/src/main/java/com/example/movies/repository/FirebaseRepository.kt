@@ -22,7 +22,7 @@ class FirebaseRepository {
         database.child("users").child(userId).get().addOnSuccessListener {
             val lst = it.value as Map<*, *>
             Log.i("firebase", "Got value ${lst["digitLst"]}")
-        }.addOnFailureListener{
+        }.addOnFailureListener {
             Log.e("firebase", "Error getting data", it)
         }
     }
@@ -41,5 +41,16 @@ class FirebaseRepository {
         database.child("favorites").child(userId).child(movieId).removeValue()
     }
 
+    fun getGenresPreferences(userId: String) =
+        database.child("genres").child(userId).get().addOnSuccessListener {
+            Log.i("genresPreferences", "addOnSuccessListener")
+        }.addOnFailureListener {
+            Log.i("genresPreferences", "addOnFailureListener")
+        }
 
+
+    fun writeGenresPreferences(userId: String, genresList: List<String>) {
+        database.child("genres").child(userId).setValue(genresList)
+
+    }
 }

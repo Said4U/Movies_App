@@ -1,6 +1,7 @@
 package com.example.movies.repository
 
 import com.example.movies.Constants
+import com.example.movies.data.Similar
 import com.example.movies.data.Video
 import com.example.movies.data.movies.*
 import okhttp3.OkHttpClient
@@ -15,11 +16,12 @@ import java.util.concurrent.TimeUnit
 
 
 interface MoviesApi {
-    @GET("/api/v2.2/films?countries=1&genres=1&order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=2012&yearTo=3000")
+    @GET("/api/v2.2/films?countries=1&order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=2012&yearTo=3000")
     @Headers(
         "accept: application/json",
         "X-API-KEY: " + Constants.API_KEY )
-    fun getMovies(@Query("page") page : Int) : Call<MoviesData>
+    fun getMovies(@Query("page") page : Int,
+                  @Query("genres") genres : Int) : Call<MoviesData>
 
     @GET("/api/v2.2/films/{movieId}")
     @Headers("Content-Type: application/json",
@@ -48,6 +50,11 @@ interface MoviesApi {
     fun getPremieres(@Query("year") year: String,
                      @Query("month") month: String) : Call<Premieres>
 
+    @GET("/api/v2.2/films/{movieId}/similars")
+    @Headers("Content-Type: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getSimilar(@Path("movieId") movieId: Int) : Call<Similar>
+
     companion object {
 
         private var BASE_URL = "https://kinopoiskapiunofficial.tech/"
@@ -64,4 +71,5 @@ interface MoviesApi {
             return retrofit.create(MoviesApi::class.java)
 
         }
-    }}
+    }
+}

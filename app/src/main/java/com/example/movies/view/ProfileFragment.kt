@@ -36,10 +36,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             startActivity(intent)
         }
 
-        nightSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) setNightTheme()
-            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        changePreferencesBtn.setOnClickListener{
+            val intent = Intent(context, GenresPreferencesActivity::class.java)
+            startActivity(intent)
         }
+
+//        nightSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked) setNightTheme()
+//            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        }
     }
 
     private fun setNightTheme(){

@@ -51,13 +51,21 @@ SearchMovieAdapter.ItemClickListener {
 
         initObservers()
 
+        val topType = requireArguments().getString("top")!!
+
+        topTitle.text = when (topType){
+            "TOP_250_BEST_FILMS" -> getString(R.string.topFilms)
+            "TOP_100_POPULAR_FILMS" -> getString(R.string.topPopular)
+            else -> getString(R.string.topAwait)
+        }
+
         recyclerViewTop.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
                     if (count < 13){
                         count++
-                        moviesActivityViewModel.getTopMovies(requireArguments().getString("top")!!, count)
+                        moviesActivityViewModel.getTopMovies(topType, count)
                     }
                 }
             }

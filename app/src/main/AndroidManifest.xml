@@ -16,6 +16,27 @@
         android:theme="@style/Theme.Films"
         tools:targetApi="33">
         <activity
+            android:name=".view.favorites.FavoritesListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".view.favorites.FavoritesPreferencesListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".view.GenresPreferencesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".view.LaunchActivity"
             android:exported="false">
             <meta-data

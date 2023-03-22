@@ -14,7 +14,7 @@ class LaunchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_launch)
 
         Timer().schedule(2000) {
-            setResult(RESULT_OK, Intent());
+            setResult(RESULT_OK, Intent())
             finish()
         }
     }

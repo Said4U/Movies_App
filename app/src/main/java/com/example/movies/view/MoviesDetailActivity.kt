@@ -88,7 +88,6 @@ class MoviesDetailActivity : AppCompatActivity() {
     private fun initObservers() {
         moviesActivityViewModel.apply {
             moviesDetail.observe(this@MoviesDetailActivity) {
-                Log.i("Debug", "Присваиваем")
                 Picasso.get().load(it.posterUrl).resize(1200, 1600).into(imageViewDetail)
                 singleMovieNameRus.text = it?.nameRu?: it.nameEn?: it.nameOriginal
                 singleMovieNameEn.text = it.nameEn?: it.nameOriginal

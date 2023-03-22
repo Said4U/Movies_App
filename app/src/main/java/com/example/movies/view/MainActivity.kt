@@ -1,12 +1,17 @@
 package com.example.movies.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.movies.R
-import com.example.movies.viewmodel.MainActivityViewModel
+import com.example.movies.view.favorites.FavoritesFragment
+import com.example.movies.viewmodel.MoviesActivityViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -16,11 +21,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainActivityViewModel = MainActivityViewModel()
+    private val moviesActivityViewModel = MoviesActivityViewModel()
 
     private lateinit var favoritesFragment : FavoritesFragment
     private lateinit var homeFragment : HomeFragment
     private lateinit var profileFragment: ProfileFragment
+    private lateinit var userID : String
+    private lateinit var userName : String
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -28,39 +35,56 @@ class MainActivity : AppCompatActivity() {
         this.onSignInResult(res)
     }
 
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            Log.i("initFragments", "RESULT_OK")
+            initFragments()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
 
         val intent = Intent()
         intent.setClass(this, LaunchActivity::class.java)
-        startActivityForResult(intent, RESULT_OK);
+        startActivityForResult(intent, RESULT_OK)
 
         val idPref = getSharedPreferences("MySharedPref", MODE_PRIVATE)
 
-        val userID = idPref.getString("userId", "")
-        val userName = idPref.getString("name", "")
+        userID = idPref.getString("userId", "").toString()
+        userName = idPref.getString("name", "").toString()
+
+        Log.i("initFragments", "onCreate")
 
         if (userID == ""){
             openRegistrationScreen()
         }else{
-            val bundle = Bundle()
-            bundle.putString("id", userID)
-            bundle.putString("name", userName)
-            favoritesFragment = FavoritesFragment.getNewInstance(bundle)
-            homeFragment = HomeFragment.getNewInstance(bundle)
-            profileFragment = ProfileFragment.getNewInstance(bundle)
-
-            setCurrentFragment(homeFragment)
+            Log.i("initFragments", "else")
+            initFragments()
         }
+    }
+
+    private fun initFragments(){
+        Log.i("initFragments", "initFragments")
+        val bundle = Bundle()
+        bundle.putString("id", userID)
+        bundle.putString("name", userName)
+        favoritesFragment = FavoritesFragment()
+        homeFragment = HomeFragment.getNewInstance(bundle)
+        profileFragment = ProfileFragment.getNewInstance(bundle)
+
+        setCurrentFragment(homeFragment)
+
+        setBottomNavigationView()
+    }
 
 
-
-
+    private fun setBottomNavigationView(){
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)
@@ -91,6 +115,17 @@ class MainActivity : AppCompatActivity() {
         signInLauncher.launch(signInIntent)
     }
 
+    private fun getGenresPreferences(userId: String, userName: String) {
+        moviesActivityViewModel.getGenresPreferences(userId)
+        moviesActivityViewModel.apply {
+            genresPreferences.observe(this@MainActivity) {
+                if (it.size == 1) {
+                    startForResult.launch(Intent(this@MainActivity, GenresPreferencesActivity::class.java))
+                }
+            }
+        }
+    }
+
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
@@ -102,9 +137,7 @@ class MainActivity : AppCompatActivity() {
             idPrefEdit.putString("name", user.displayName)
             idPrefEdit.apply()
 
-            val bundle = Bundle()
-            bundle.putString("id", user.uid)
-            bundle.putString("name", user.displayName)
+            getGenresPreferences(user.uid, user.displayName.toString())
 
 //            val profileUpdates = UserProfileChangeRequest.Builder()
 //                .setDisplayName("Шихсаид Шихсаидов").build()
@@ -113,16 +146,7 @@ class MainActivity : AppCompatActivity() {
 //                Log.i("name", user.displayName.toString())
 //            }
 
-            favoritesFragment = FavoritesFragment.getNewInstance(bundle)
-            homeFragment = HomeFragment.getNewInstance(bundle)
-            profileFragment = ProfileFragment.getNewInstance(bundle)
 
-            setCurrentFragment(homeFragment)
-
-            user.let {
-                mainActivityViewModel.writeNewUser(it.uid, it.email.toString())
-                mainActivityViewModel.getUser(it.uid)
-            }
         }
     }
 }
