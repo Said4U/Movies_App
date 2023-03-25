@@ -88,8 +88,6 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation), Custo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        searchView.background = ResourcesCompat.getDrawable(resources, R.drawable.corners_white, null)
-
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
         idPref = requireActivity().getSharedPreferences("MySharedPref", AppCompatActivity.MODE_PRIVATE)

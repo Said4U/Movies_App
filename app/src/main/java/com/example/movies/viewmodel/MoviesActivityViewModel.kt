@@ -3,10 +3,7 @@ package com.example.movies.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.movies.data.ItemSimilar
-import com.example.movies.data.Similar
-import com.example.movies.data.Video
-import com.example.movies.data.VideoItem
+import com.example.movies.data.*
 import com.example.movies.data.movies.*
 import com.example.movies.repository.FirebaseRepository
 import com.example.movies.repository.MoviesApi
@@ -49,6 +46,15 @@ class MoviesActivityViewModel {
     private  val _moviesSimilar = MutableLiveData<List<ItemSimilar>>()
     val moviesSimilar : LiveData<List<ItemSimilar>> = _moviesSimilar
 
+    private  val _images = MutableLiveData<List<ItemImage>>()
+    val images : LiveData<List<ItemImage>> = _images
+
+    private  val _awards = MutableLiveData<List<ItemAward>>()
+    val awards : LiveData<List<ItemAward>> = _awards
+
+    private  val _persons = MutableLiveData<List<PersonItem>>()
+    val persons : LiveData<List<PersonItem>> = _persons
+
     private var moviesRecommendationSave = mutableListOf<Item>()
     private var moviesRecommendationSaveCommon = mutableListOf<Item>()
 
@@ -84,39 +90,6 @@ class MoviesActivityViewModel {
         moviesApi.getOneMovie(id).enqueue(object : Callback<OneMoviesData> {
             override fun onResponse(call: Call<OneMoviesData>, response: Response<OneMoviesData>) {
                 _moviesDetail.postValue(response.body())
-            }
-
-            override fun onFailure(call: Call<OneMoviesData>, t: Throwable) {
-                Log.e("Debug", t.message.toString())
-            }
-        })
-    }
-
-    fun getMoviesDetailRecommendation(id: Int){
-
-        moviesApi.getOneMovie(id).enqueue(object : Callback<OneMoviesData> {
-            override fun onResponse(call: Call<OneMoviesData>, response: Response<OneMoviesData>) {
-                Log.i("response", response.body().toString())
-                Log.i("response", id.toString())
-                val body = response.body()!!
-                moviesRecommendationSaveCommon.add(Item(
-                    body.countries,
-                    body.genres,
-                    body.imdbId,
-                    body.kinopoiskId,
-                    body.nameEn,
-                    body.nameOriginal,
-                    body.nameRu,
-                    body.posterUrl,
-                    body.posterUrlPreview,
-                    body.ratingImdb,
-                    body.ratingKinopoisk,
-                    body.type,
-                    body.year,
-                    ""
-                ))
-
-                _movies.postValue(moviesRecommendationSaveCommon)
             }
 
             override fun onFailure(call: Call<OneMoviesData>, t: Throwable) {
@@ -206,7 +179,7 @@ class MoviesActivityViewModel {
 
 
 
-        fun getSearchMovie(keyword : String){
+    fun getSearchMovie(keyword : String){
 
         moviesApi.getSearchMovie(keyword).enqueue(object : Callback<SearchMovie> {
             override fun onResponse(call: Call<SearchMovie>, response: Response<SearchMovie>) {
@@ -259,19 +232,6 @@ class MoviesActivityViewModel {
         })
     }
 
-    fun getSimilar(movieId: Int){
-        moviesApi.getSimilar(movieId).enqueue(object : Callback<Similar> {
-            override fun onResponse(call: Call<Similar>, response: Response<Similar>) {
-
-                _moviesSimilar.postValue(response.body()!!.items)
-            }
-
-            override fun onFailure(call: Call<Similar>, t: Throwable) {
-                Log.e("Debug", t.message.toString())
-            }
-        })
-    }
-
     fun getSimilarList(movieIdList: List<String>){
         for (movieId in movieIdList) {
             moviesApi.getSimilar(movieId.toInt()).enqueue(object : Callback<Similar> {
@@ -287,4 +247,39 @@ class MoviesActivityViewModel {
         }
     }
 
+    fun getImages(movieId : Int){
+        moviesApi.getImages(movieId).enqueue(object : Callback<Image> {
+            override fun onResponse(call: Call<Image>, response: Response<Image>) {
+                _images.postValue(response.body()!!.items)
+            }
+
+            override fun onFailure(call: Call<Image>, t: Throwable) {
+                Log.e("Debug", t.message.toString())
+            }
+        })
+    }
+
+    fun getAwards(movieId : Int){
+        moviesApi.getAwards(movieId).enqueue(object : Callback<Award> {
+            override fun onResponse(call: Call<Award>, response: Response<Award>) {
+                _awards.postValue(response.body()!!.items)
+            }
+
+            override fun onFailure(call: Call<Award>, t: Throwable) {
+                Log.e("Debug", t.message.toString())
+            }
+        })
+    }
+
+    fun getPerson(movieId : Int){
+        moviesApi.getPerson(movieId).enqueue(object : Callback<Person> {
+            override fun onResponse(call: Call<Person>, response: Response<Person>) {
+                _persons.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Person>, t: Throwable) {
+                Log.e("Debug", t.message.toString())
+            }
+        })
+    }
 }

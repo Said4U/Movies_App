@@ -11,21 +11,36 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<!--        android:background="@color/ivory">-->
 
         <TextView
             android:id="@+id/rating"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="24dp"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="180dp"
             android:background="@color/grey"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/slogan" />
+
+        <TextView
+            android:id="@+id/otherInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="170dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="start"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/slogan" />
 
@@ -34,6 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:gravity="center"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,93 +60,304 @@
 
         <ImageView
             android:id="@+id/imageViewDetail"
-            android:layout_width="300dp"
-            android:layout_height="410dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="180dp"
+            android:layout_width="369dp"
+            android:layout_height="550dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_favorites_btn" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/singleMovieNameEn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:gravity="center"
-            android:textSize="22sp"
+            android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/singleMovieNameRus" />
 
         <TextView
+            android:id="@+id/watchText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/orangeRed"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="Смотреть"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_favorites_btn"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            android:clickable="true"/>
+
+        <TextView
             android:id="@+id/singleMovieNameRus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:gravity="center"
-            android:textSize="26sp"
+            android:textSize="30sp"
             android:textStyle="bold|italic"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewDetail" />
+            app:layout_constraintTop_toBottomOf="@+id/watchText" />
+
+        <TextView
+            android:id="@+id/genresText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rating" />
+
+        <TextView
+            android:id="@+id/countryYearText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genresText" />
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/countryYearText" />
+
+        <TextView
+            android:id="@+id/fullDescriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/orangeRed"
+            android:gravity="end"
+            android:textStyle="bold"
+            android:text="Показать всё"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionText"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="25dp"
+            android:clickable="true"/>
+
+
+        <TextView
+            android:id="@+id/picturesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:gravity="start"
+            android:text="Изображения"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
 
         <Button
             android:id="@+id/add_favorites_btn"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="204dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
             android:text="@string/add_favorites"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewDetail" />
+
 
         <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:layout_marginTop="60dp"
+            android:layout_height="210dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rating"
-            android:orientation="horizontal">
+            app:layout_constraintTop_toBottomOf="@+id/picturesText">
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/imageView1"
-                    android:layout_width="150dp"
+                    android:layout_width="240dp"
                     android:layout_height="match_parent"
-                    android:paddingEnd="8dp">
-                </ImageView>
+                    android:paddingEnd="8dp"/>
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="150dp"
+                    android:layout_width="240dp"
                     android:layout_height="match_parent"
-                    android:paddingEnd="8dp">
-                </ImageView>
+                    android:paddingEnd="8dp"/>
+
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="150dp"
+                    android:layout_width="240dp"
                     android:layout_height="match_parent"
-                    android:paddingEnd="8dp">
-                </ImageView>
+                    android:paddingEnd="8dp"/>
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                </ImageView>
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp"/>
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="240dp"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="8dp"/>
+
             </LinearLayout>
-
-
         </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/videoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:gravity="start"
+            android:text="Трейлеры"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/videoText"
+            tools:listitem="@layout/video_card_view_design" />
+
+        <TextView
+            android:id="@+id/awardsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:gravity="start"
+            android:text="Награды"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewVideo" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAwards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/awardsText"
+            tools:listitem="@layout/award_card_view_design" />
+
+        <TextView
+            android:id="@+id/personText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:gravity="start"
+            android:text="Актёры и режиссёры"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewAwards" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/personText"
+            tools:listitem="@layout/award_card_view_design" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

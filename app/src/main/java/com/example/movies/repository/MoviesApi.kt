@@ -1,8 +1,7 @@
 package com.example.movies.repository
 
 import com.example.movies.Constants
-import com.example.movies.data.Similar
-import com.example.movies.data.Video
+import com.example.movies.data.*
 import com.example.movies.data.movies.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -54,6 +53,21 @@ interface MoviesApi {
     @Headers("Content-Type: application/json",
         "X-API-KEY: " + Constants.API_KEY )
     fun getSimilar(@Path("movieId") movieId: Int) : Call<Similar>
+
+    @GET("/api/v2.2/films/{movieId}/images?type=STILL&page=1")
+    @Headers("Content-Type: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getImages(@Path("movieId") movieId: Int) : Call<Image>
+
+    @GET("/api/v2.2/films/{movieId}/awards")
+    @Headers("Content-Type: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getAwards(@Path("movieId") movieId: Int) : Call<Award>
+
+    @GET("/api/v1/staff")
+    @Headers("Content-Type: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getPerson(@Query("filmId") movieId: Int) : Call<Person>
 
     companion object {
 
