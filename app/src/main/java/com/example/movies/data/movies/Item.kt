@@ -15,4 +15,9 @@ data class Item(
     val type: String,
     val year: Int,
     val premiereRu: String
-)
+){
+    override fun hashCode(): Int {
+        return kinopoiskId
+    }
+}
+

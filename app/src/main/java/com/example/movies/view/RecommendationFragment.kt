@@ -1,5 +1,6 @@
 package com.example.movies.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.core.content.res.ResourcesCompat
@@ -34,11 +37,47 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation), Custo
 
     private val moviesActivityViewModel = MoviesActivityViewModel()
     var count = 1
+    var countFilter = 1
+    var isFilter = false
     private lateinit var idPref: SharedPreferences
-
+    val processedData = ArrayList<String>()
     private lateinit var userID : String
 
-    val genreMap = mapOf(
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data?.extras?.getStringArrayList("filterList")
+
+            processedData.clear()
+            processedData.add(genreMap[data!![0].replaceFirstChar { genre -> genre.lowercase() }]!!.toString())
+            processedData.add(countryMap[data[1]]!!.toString())
+            processedData.add(data[2])
+            processedData.add(data[3])
+            processedData.add(data[4])
+            processedData.add(data[5])
+            processedData.add(typeMap[data[6]]!!)
+            moviesActivityViewModel.getMoviesFilter(
+                1,
+                processedData[0].toInt(),
+                processedData[1].toInt(),
+                processedData[2].toInt(),
+                processedData[3].toInt(),
+                processedData[4].toInt(),
+                processedData[5].toInt(),
+                processedData[6]
+            )
+            isFilter = true
+
+        }
+        if (result.resultCode == Activity.RESULT_FIRST_USER) {
+            recyclerView.adapter = CustomAdapter(
+                moviesActivityViewModel.movies.value,
+                this@RecommendationFragment
+            )
+            isFilter = false
+        }
+    }
+
+    private val genreMap = mapOf(
         "триллер" to 1,
         "драма" to 2,
         "криминал" to 3,
@@ -73,6 +112,52 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation), Custo
         "детский" to 33,
     )
 
+    private val countryMap = mapOf(
+        "США" to 1,
+        "Швейцария" to 2,
+        "Франция" to 3,
+        "Польша" to 4,
+        "Великобритания" to 5,
+        "Швеция" to 6,
+        "Индия" to 7,
+        "Испания" to 8,
+        "Германия" to 9,
+        "Италия" to 10,
+        "Гонконг" to 11,
+        "Германия (ФРГ)" to 12,
+        "Австралия" to 13,
+        "Канада" to 14,
+        "Мексика" to 15,
+        "Япония" to 16,
+        "Дания" to 17,
+        "Чехия" to 18,
+        "Ирландия" to 19,
+        "Люксембург" to 20,
+        "Китай" to 21,
+        "Норвегия" to 22,
+        "Нидерланды" to 23,
+        "Аргентина" to 24,
+        "Финляндия" to 25,
+        "Босния и Герцеговина" to 26,
+        "Австрия" to 27,
+        "Тайвань" to 28,
+        "Новая Зеландия" to 29,
+        "Бразилия" to 30,
+        "Чехословакия" to 31,
+        "Мальта" to 32,
+        "СССР" to 33,
+        "Россия" to 34,
+    )
+
+    private val typeMap = mapOf(
+        "Все" to "ALL",
+        "Фильм" to "FILM",
+        "Шоу" to "TV_SHOW",
+        "Сериал" to "TV_SERIES",
+        "Мини-сериал" to "MINI_SERIES",
+    )
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -80,7 +165,10 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation), Custo
             object : OnBackPressedCallback(true)
             {
                 override fun handleOnBackPressed() {
-                    initObservers()
+                    recyclerView.adapter = CustomAdapter(
+                        moviesActivityViewModel.movies.value,
+                        this@RecommendationFragment)
+                    isFilter = false
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -105,11 +193,13 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation), Custo
                 return false
             }
         })
+
+        filterBtn.setOnClickListener {
+            startForResult.launch(Intent(context, FilterActivity::class.java))
+        }
     }
 
     private fun initObservers(){
-        moviesActivityViewModel.getFavoritesID(userID)
-
         // запрос жанров к БД
         moviesActivityViewModel.getGenresPreferences(userID)
 
@@ -118,48 +208,75 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation), Custo
             genresPreferences.observe(viewLifecycleOwner) {
                 moviesActivityViewModel.getMovies(
                     1,
-                    genreMap[it[0].replaceFirstChar { genre -> genre.lowercase() }]!!
+                    genreMap[it[0].replaceFirstChar { genre -> genre.lowercase() }]!!,
                 )
                 moviesActivityViewModel.getMovies(
                     1,
-                    genreMap[it[1].replaceFirstChar { genre -> genre.lowercase() }]!!
+                    genreMap[it[1].replaceFirstChar { genre -> genre.lowercase() }]!!,
                 )
                 moviesActivityViewModel.getMovies(
                     1,
-                    genreMap[it[2].replaceFirstChar { genre -> genre.lowercase() }]!!
+                    genreMap[it[2].replaceFirstChar { genre -> genre.lowercase() }]!!,
                 )
             }
-        }
 
-
-            moviesActivityViewModel.apply {
-                genresPreferences.observe(viewLifecycleOwner) {
-
-                    recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                            super.onScrollStateChanged(recyclerView, newState)
-                            if (!recyclerView.canScrollVertically(1)) {
-                                if (count < 5){
+            genresPreferences.observe(viewLifecycleOwner) {
+                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        if (!recyclerView.canScrollVertically(1)) {
+                            if (isFilter) {
+                                if (countFilter < 5) {
+                                    countFilter++
+                                    moviesActivityViewModel.getMoviesFilter(
+                                        countFilter,
+                                        processedData[0].toInt(),
+                                        processedData[1].toInt(),
+                                        processedData[2].toInt(),
+                                        processedData[3].toInt(),
+                                        processedData[4].toInt(),
+                                        processedData[5].toInt(),
+                                        processedData[6]
+                                    )
+                                }
+                            } else {
+                                if (count < 5) {
                                     count++
-                                    moviesActivityViewModel.getMovies(count, genreMap[it[0].replaceFirstChar { genre -> genre.lowercase() }]!!)
+                                    Log.i("canScrollVertically", "canScrollVertically")
+                                    moviesActivityViewModel.getMovies(
+                                        count,
+                                        genreMap[it[0].replaceFirstChar { genre -> genre.lowercase() }]!!
+                                    )
+                                    moviesActivityViewModel.getMovies(
+                                        count,
+                                        genreMap[it[1].replaceFirstChar { genre -> genre.lowercase() }]!!
+                                    )
+                                    moviesActivityViewModel.getMovies(
+                                        count,
+                                        genreMap[it[2].replaceFirstChar { genre -> genre.lowercase() }]!!
+                                    )
                                 }
                             }
                         }
-                    })
-                }
+                    }
+                })
             }
 
-
-
-        moviesActivityViewModel.apply {
             movies.observe(viewLifecycleOwner){
-
                 val recyclerViewState = recyclerView.layoutManager!!.onSaveInstanceState()
                 recyclerView.adapter = CustomAdapter(it, this@RecommendationFragment)
                 recyclerView.layoutManager!!.onRestoreInstanceState(recyclerViewState)
             }
+
+            moviesFilter.observe(viewLifecycleOwner){
+                val recyclerViewState = recyclerView.layoutManager!!.onSaveInstanceState()
+                if (it.isEmpty()) Toast.makeText(context, "Ничего не нашлось", Toast.LENGTH_SHORT).show()
+                recyclerView.adapter = CustomAdapter(it, this@RecommendationFragment)
+                recyclerView.layoutManager!!.onRestoreInstanceState(recyclerViewState)            }
         }
     }
+
+
 
     private fun searchMovies(keyword: String) {
 

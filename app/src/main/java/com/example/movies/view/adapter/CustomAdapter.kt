@@ -41,8 +41,10 @@ class CustomAdapter(private val mList: List<Item>?, val mItemClickListener: Item
         val movieMark = mList?.get(position)?.ratingKinopoisk
 
         if (movieMark == null || movieMark == 0.0){
-            holder.itemView.movies_mark.visibility = View.INVISIBLE
+            holder.itemView.movies_mark.visibility = View.GONE
+            Log.i("movieMark", movieMark.toString())
         }else{
+            Log.i("movieMark", movieMark.toString() + "    else")
             holder.itemView.movies_mark.visibility = View.VISIBLE
             holder.itemView.movies_mark.text = movieMark.toString()
             holder.itemView.movies_mark.setTextColor(Color.WHITE)

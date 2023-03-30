@@ -8,16 +8,30 @@
 
         <SearchView
             android:id="@+id/searchView"
-            android:layout_width="350dp"
-            android:layout_height="48dp"
-            android:layout_margin="10dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="320dp"
+            android:layout_height="45dp"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
 
             android:background="@drawable/corners"
             android:iconifiedByDefault="false"
             android:queryHint="Поиск"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/filterBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="330dp"
+            android:src="@drawable/baseline_filter_alt_24"
+            android:background="@drawable/corners"
+
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

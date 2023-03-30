@@ -33,4 +33,80 @@
         <item>Ноябрь</item>
         <item>Декабрь</item>
     </string-array>
+    <string-array name="genres">
+        <item>Триллер</item>
+        <item>Драма</item>
+        <item>Криминал</item>
+        <item>Мелодрама</item>
+        <item>Детектив</item>
+        <item>Фантастика</item>
+        <item>Приключения</item>
+        <item>Биография</item>
+        <item>Вестерн</item>
+        <item>Фильм-нуар</item>
+        <item>Фэнтези</item>
+        <item>Боевик</item>
+        <item>Военный</item>
+        <item>История</item>
+        <item>Музыка</item>
+        <item>Ужасы</item>
+        <item>Мультфильм</item>
+        <item>Семейный</item>
+        <item>Мюзикл</item>
+        <item>Спорт</item>
+        <item>Документальный</item>
+        <item>Короткометражка</item>
+        <item>Аниме</item>
+        <item>Новости</item>
+        <item>Концерт</item>
+        <item>Для взрослых</item>
+        <item>Церемония</item>
+        <item>Реальное ТВ</item>
+        <item>Игра</item>
+        <item>Ток-шоу"</item>
+        <item>Детский</item>
+    </string-array>
+    <string-array name="country">
+        <item>США</item>
+        <item>Швейцария</item>
+        <item>Франция</item>
+        <item>Польша</item>
+        <item>Великобритания</item>
+        <item>Швеция</item>
+        <item>Индия</item>
+        <item>Испания</item>
+        <item>Германия</item>
+        <item>Италия</item>
+        <item>Гонконг</item>
+        <item>Германия (ФРГ)</item>
+        <item>Австралия</item>
+        <item>Канада</item>
+        <item>Мексика</item>
+        <item>Япония</item>
+        <item>Дания</item>
+        <item>Чехия</item>
+        <item>Ирландия</item>
+        <item>Люксембург</item>
+        <item>Китай</item>
+        <item>Норвегия</item>
+        <item>Нидерланды</item>
+        <item>Аргентина</item>
+        <item>Финляндия</item>
+        <item>Босния и Герцеговина</item>
+        <item>Австрия</item>
+        <item>Тайвань</item>
+        <item>Новая Зеландия</item>
+        <item>Бразилия"</item>
+        <item>Чехословакия</item>
+        <item>Мальта</item>
+        <item>СССР</item>
+        <item>Россия</item>
+    </string-array>
+    <string-array name="type">
+        <item>Все</item>
+        <item>Фильм</item>
+        <item>Шоу</item>
+        <item>Сериал</item>
+        <item>Мини-сериал</item>
+    </string-array>
 </resources>

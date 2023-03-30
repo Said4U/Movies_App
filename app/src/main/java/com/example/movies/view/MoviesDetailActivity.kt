@@ -7,9 +7,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginLeft
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.example.movies.view.adapter.AwardsAdapter
@@ -96,7 +99,13 @@ class MoviesDetailActivity : AppCompatActivity(), VideoAdapter.ItemClickListener
                 when(ratingDigit){
                     in 7.0..10.0 -> rating.setBackgroundColor(Color.parseColor("#32CD32"))
                     in 5.0..6.9 -> rating.setBackgroundColor(Color.GRAY)
-                    else -> rating.movies_mark.setBackgroundColor(Color.RED)
+                    0.0 -> {
+                        rating.visibility = View.GONE
+                        val params = otherInfo.layoutParams as ViewGroup.MarginLayoutParams
+                        params.marginStart = 450
+                        otherInfo.layoutParams = params
+                    }
+                    else -> rating.setBackgroundColor(Color.RED)
                 }
                 rating.text = ratingDigit.toString()
 
@@ -118,16 +127,24 @@ class MoviesDetailActivity : AppCompatActivity(), VideoAdapter.ItemClickListener
                 it.countries.forEach{ countryObject ->
                     countryYearString += countryObject.country + ", "
                 }
-                countryYearText.text = countryYearString.removeRange(countryYearString.length - 2, countryYearString.length - 1) + "• " + it.year
+                countryYearString = countryYearString.removeRange(countryYearString.length - 2, countryYearString.length - 1)
+                if (it.year != 0) countryYearString += "• " + it.year
+                countryYearText.text = countryYearString
 
-                if (it.description.length >= 150){
-                    descriptionText.text = it.description.subSequence(0, 150).toString() + " ..."
+                if (it.description != null){
+                    if (it.description.length >= 150){
+                        descriptionText.text = it.description.subSequence(0, 150).toString() + " ..."
+                    } else {
+                        descriptionText.text = it.description
+                    }
                 } else {
-                    descriptionText.text = it.description
+                    descriptionText.visibility = View.GONE
+                    fullDescriptionText.visibility = View.GONE
                 }
 
+
                 var infoString = filmTypeMap[it.type]
-                infoString += ", " + it.filmLength + " мин."
+                if (it.filmLength != 0) infoString += ", " + it.filmLength + " мин."
                 otherInfo.text = infoString
 
                 fullDescriptionText.setOnClickListener{_ ->
@@ -142,21 +159,37 @@ class MoviesDetailActivity : AppCompatActivity(), VideoAdapter.ItemClickListener
 
             getImages(movieId)
             images.observe(this@MoviesDetailActivity) {
-                val maxLength = if (it.size >= 10) 10
-                else it.size
+                if (it.isEmpty()) {
+                    horizontalScrollView.visibility = View.GONE
+                    var imageString = picturesText.text.toString()
+                    imageString += " (отсутствуют)"
+                    picturesText.text = imageString
+                } else {
+                    val maxLength = if (it.size >= 10) 10
+                    else it.size
 
-                var position = -1
-                it.subList(0, maxLength).forEach{itemImage ->
-                    position++
-                    val image = linearLayout.getChildAt(position) as ImageView
-                    Picasso.get().load(itemImage.imageUrl).fit().into(image)
+                    var position = -1
+                    it.subList(0, maxLength).forEach { itemImage ->
+                        position++
+                        val image = linearLayout.getChildAt(position) as ImageView
+                        Picasso.get().load(itemImage.imageUrl).fit().into(image)
+                    }
                 }
             }
 
             getVideos(movieId)
             video.observe(this@MoviesDetailActivity) {
-                recyclerViewVideo.layoutManager = LinearLayoutManager(this@MoviesDetailActivity, LinearLayoutManager.HORIZONTAL, false)
+                recyclerViewVideo.layoutManager = LinearLayoutManager(
+                    this@MoviesDetailActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
                 recyclerViewVideo.adapter = VideoAdapter(it, this@MoviesDetailActivity)
+                if (it.isEmpty()) {
+                    var videoString = videoText.text.toString()
+                    videoString += " (отсутствуют)"
+                    videoText.text = videoString
+                }
             }
 
             getAwards(movieId)

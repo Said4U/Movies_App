@@ -50,6 +50,7 @@ class PremieresAdapter(private val mList: List<Item>?, val mItemClickListener: I
         if (mList?.get(position)?.genres!!.isNotEmpty()){
             holder.itemView.movies_genre_premiere.text = mList[position].genres[0].genre
         }
+
     }
 
     // return the number of the videoItems in the list

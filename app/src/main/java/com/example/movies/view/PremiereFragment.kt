@@ -41,14 +41,13 @@ class PremiereFragment : Fragment(R.layout.fragment_premiere), PremieresAdapter.
 
         recyclerViewPremiere.layoutManager = GridLayoutManager(requireContext(), 2)
         initObservers()
-        spinnerMonth.setSelection(1)
+        spinnerMonth.setSelection(6)
 
         spinnerYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 itemSelected: View, selectedItemPosition: Int, selectedId: Long
             ) {
-                Log.i("spinnerYear", parent!!.getItemAtPosition(selectedItemPosition).toString() + " " + monthMap[spinnerMonth.selectedItem.toString()]!!)
                 moviesActivityViewModel.getPremieres(parent!!.getItemAtPosition(selectedItemPosition).toString(),
                     monthMap[spinnerMonth.selectedItem.toString()]!!)
             }
@@ -68,12 +67,9 @@ class PremiereFragment : Fragment(R.layout.fragment_premiere), PremieresAdapter.
     }
 
     private fun initObservers(){
-        Log.i("Debug", "observeMovies")
         moviesActivityViewModel.apply {
             moviesPremieres.observe(viewLifecycleOwner){
                 recyclerViewPremiere.adapter = PremieresAdapter(it, this@PremiereFragment)
-                Log.i("spinnerMonth", it?.size.toString())
-
             }
         }
     }

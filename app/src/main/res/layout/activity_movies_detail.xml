@@ -33,14 +33,13 @@
             android:id="@+id/otherInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:layout_marginStart="170dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="20dp"
             android:gravity="start"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/slogan" />
 
@@ -123,7 +122,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rating" />
+            app:layout_constraintTop_toBottomOf="@+id/otherInfo" />
 
         <TextView
             android:id="@+id/countryYearText"
@@ -187,9 +186,9 @@
         <Button
             android:id="@+id/add_favorites_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:text="@string/add_favorites"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"

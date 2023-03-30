@@ -4,7 +4,7 @@ data class OneMoviesData(
     val completed: Boolean,
     val countries: List<Country>,
     val coverUrl: String,
-    val description: String,
+    val description: String?,
     val editorAnnotation: String,
     val endYear: Int,
     val filmLength: Int,

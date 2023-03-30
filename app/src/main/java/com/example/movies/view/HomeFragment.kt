@@ -19,15 +19,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     )
 
 
-
-    companion object{
-        fun getNewInstance(userId: Bundle): HomeFragment {
-            val homeFragment = HomeFragment()
-            homeFragment.arguments = userId
-            return homeFragment
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

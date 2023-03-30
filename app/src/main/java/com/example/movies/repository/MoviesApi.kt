@@ -15,13 +15,24 @@ import java.util.concurrent.TimeUnit
 
 
 interface MoviesApi {
-    @GET("/api/v2.2/films?countries=1&order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=2012&yearTo=3000")
-    @Headers(
-        "accept: application/json",
+    @GET("/api/v2.2/films?&order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=2012&yearTo=3000")
+    @Headers("accept: application/json",
         "X-API-KEY: " + Constants.API_KEY )
     fun getMovies(@Query("page") page : Int,
                   @Query("genres") genres : Int) : Call<MoviesData>
 
+    @GET("/api/v2.2/films?order=RATING")
+    @Headers("accept: application/json",
+        "X-API-KEY: " + Constants.API_KEY )
+    fun getMoviesFilter(@Query("page") page : Int,
+                  @Query("genres") genres : Int,
+                  @Query("countries") countries : Int,
+                  @Query("ratingFrom") ratingFrom : Int,
+                  @Query("ratingTo") ratingTo : Int,
+                  @Query("yearFrom") yearFrom : Int,
+                  @Query("yearTo") yearTo : Int,
+                  @Query("type") type : String
+    ) : Call<MoviesData>
     @GET("/api/v2.2/films/{movieId}")
     @Headers("Content-Type: application/json",
         "X-API-KEY: " + Constants.API_KEY )

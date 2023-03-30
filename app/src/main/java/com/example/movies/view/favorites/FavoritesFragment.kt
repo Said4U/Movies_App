@@ -1,9 +1,12 @@
 package com.example.movies.view.favorites
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import com.example.movies.view.adapter.FavoritesPreferencesAdapter
 import com.example.movies.view.adapter.MoviesDetailAdapter
 import com.example.movies.viewmodel.MoviesActivityViewModel
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAdapter.ItemClickListener,
@@ -20,9 +24,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
 
     private val moviesActivityViewModel = MoviesActivityViewModel()
     private lateinit var userID : String
-    private lateinit var userName : String
     private var currentFavoritesID = mutableListOf<String>()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,7 +33,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
 
         val idPref = requireActivity().getSharedPreferences("MySharedPref", AppCompatActivity.MODE_PRIVATE)
         userID = idPref.getString("userId", "").toString()
-        userName = idPref.getString("name", "").toString()
+
 
         initObservers()
 
@@ -48,12 +50,15 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
     }
 
     private fun initObservers(){
+
         moviesActivityViewModel.getFavoritesID(userID)
 
+
         moviesActivityViewModel.apply {
+            if (moviesIdList.hasObservers()) moviesIdList.removeObservers(viewLifecycleOwner)
+
             moviesIdList.observe(viewLifecycleOwner) { movieIdList ->
                 if (currentFavoritesID != movieIdList){
-                    Log.i("getSimilar", movieIdList.toString())
                     currentFavoritesID = movieIdList
                     moviesActivityViewModel.clearFavorites()
                     moviesActivityViewModel.getFavorites(userID)
@@ -67,7 +72,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
                     fullPrefListText.visibility = View.VISIBLE
                     fullFavoritesListText.visibility = View.VISIBLE
 
-                    moviesActivityViewModel.getSimilarList(movieIdList.shuffled().subList(0, maxLength))
+                    getSimilarList(movieIdList.shuffled().subList(0, maxLength))
                 } else {
                     favoritesPrefTextView.visibility = View.GONE
                     fullPrefListText.visibility = View.GONE
@@ -78,7 +83,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
             }
 
             moviesDetailList.observe(viewLifecycleOwner) {
-                Log.i("moviesDetailList", it.toString())
                 recyclerViewFavorites.adapter = MoviesDetailAdapter(it, this@FavoritesFragment)
 
             }
@@ -93,6 +97,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites), MoviesDetailAda
 
     override fun onItemClick(id: Int) {
         val moviesDetailIntent = Intent(context, MoviesDetailActivity::class.java)
+
         moviesDetailIntent.putExtra("userId", userID)
         moviesDetailIntent.putExtra("movieId", id)
         startActivity(moviesDetailIntent)

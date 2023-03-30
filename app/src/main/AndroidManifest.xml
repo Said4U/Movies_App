@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Films"
         tools:targetApi="33">
         <activity
+            android:name=".view.FilterActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.favorites.FavoritesListActivity"
             android:exported="false">
             <meta-data

@@ -36,7 +36,7 @@ class MoviesDetailAdapter(private val mList: List<OneMoviesData>?, val mItemClic
 
         val movieMark = mList?.get(position)?.ratingKinopoisk
 
-        if (movieMark == null){
+        if (movieMark == null || movieMark == 0.0){
             holder.itemView.movies_mark.visibility = View.INVISIBLE
         }else{
             holder.itemView.movies_mark.visibility = View.VISIBLE

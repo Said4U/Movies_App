@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
-            Log.i("initFragments", "RESULT_OK")
             initFragments()
         }
     }
@@ -59,24 +58,17 @@ class MainActivity : AppCompatActivity() {
         userID = idPref.getString("userId", "").toString()
         userName = idPref.getString("name", "").toString()
 
-        Log.i("initFragments", "onCreate")
-
         if (userID == ""){
             openRegistrationScreen()
         }else{
-            Log.i("initFragments", "else")
             initFragments()
         }
     }
 
     private fun initFragments(){
-        Log.i("initFragments", "initFragments")
-        val bundle = Bundle()
-        bundle.putString("id", userID)
-        bundle.putString("name", userName)
         favoritesFragment = FavoritesFragment()
-        homeFragment = HomeFragment.getNewInstance(bundle)
-        profileFragment = ProfileFragment.getNewInstance(bundle)
+        homeFragment = HomeFragment()
+        profileFragment = ProfileFragment()
 
         setCurrentFragment(homeFragment)
 
@@ -115,12 +107,14 @@ class MainActivity : AppCompatActivity() {
         signInLauncher.launch(signInIntent)
     }
 
-    private fun getGenresPreferences(userId: String, userName: String) {
+    private fun getGenresPreferences(userId: String) {
         moviesActivityViewModel.getGenresPreferences(userId)
         moviesActivityViewModel.apply {
             genresPreferences.observe(this@MainActivity) {
                 if (it.size == 1) {
                     startForResult.launch(Intent(this@MainActivity, GenresPreferencesActivity::class.java))
+                }else{
+                    initFragments()
                 }
             }
         }
@@ -137,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             idPrefEdit.putString("name", user.displayName)
             idPrefEdit.apply()
 
-            getGenresPreferences(user.uid, user.displayName.toString())
+            getGenresPreferences(user.uid)
 
 //            val profileUpdates = UserProfileChangeRequest.Builder()
 //                .setDisplayName("Шихсаид Шихсаидов").build()

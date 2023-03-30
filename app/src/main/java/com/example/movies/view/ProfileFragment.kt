@@ -20,11 +20,13 @@ import kotlinx.android.synthetic.main.card_view_design.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userName.text = requireArguments().getString("name").toString()
+        val idPref = requireActivity().getSharedPreferences("MySharedPref", AppCompatActivity.MODE_PRIVATE)
+
+        userName.text = idPref.getString("name", "").toString()
 
         signOutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -40,24 +42,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             val intent = Intent(context, GenresPreferencesActivity::class.java)
             startActivity(intent)
         }
-
-//        nightSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked) setNightTheme()
-//            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//        }
     }
-
-    private fun setNightTheme(){
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-    }
-
-    companion object{
-        fun getNewInstance(name: Bundle?): ProfileFragment {
-            val profileFragment = ProfileFragment()
-            profileFragment.arguments = name
-            return profileFragment
-        }
-    }
-
 
 }

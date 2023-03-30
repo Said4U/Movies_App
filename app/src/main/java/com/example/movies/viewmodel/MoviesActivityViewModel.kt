@@ -10,7 +10,6 @@ import com.example.movies.repository.MoviesApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.Year
 
 class MoviesActivityViewModel {
 
@@ -18,6 +17,9 @@ class MoviesActivityViewModel {
 
     private  val _movies = MutableLiveData<List<Item>>()
     val movies : LiveData<List<Item>> = _movies
+
+    private  val _moviesFilter = MutableLiveData<List<Item>>()
+    val moviesFilter : LiveData<List<Item>> = _moviesFilter
 
     private  val _moviesDetail = MutableLiveData<OneMoviesData>()
     val moviesDetail : LiveData<OneMoviesData> = _moviesDetail
@@ -57,6 +59,9 @@ class MoviesActivityViewModel {
 
     private var moviesRecommendationSave = mutableListOf<Item>()
     private var moviesRecommendationSaveCommon = mutableListOf<Item>()
+    var hashSet = HashSet<Item>()
+
+    private var moviesFilterSave = mutableListOf<Item>()
 
     private var similarSave = mutableListOf<ItemSimilar>()
 
@@ -69,14 +74,30 @@ class MoviesActivityViewModel {
 
         moviesApi.getMovies(page, genres).enqueue(object : Callback<MoviesData> {
             override fun onResponse(call: Call<MoviesData>, response: Response<MoviesData>) {
-                Log.i("Debug", "getMovies")
                 moviesRecommendationSave += response.body()!!.items
                 moviesRecommendationSave.shuffle()
-                if (moviesRecommendationSave.size == 60){
-                    moviesRecommendationSaveCommon += moviesRecommendationSave
+                if (moviesRecommendationSave.size == 60) {
+                    hashSet.addAll(moviesRecommendationSave)
+                    moviesRecommendationSaveCommon += hashSet
                     moviesRecommendationSave.clear()
+                    hashSet.clear()
                     _movies.postValue(moviesRecommendationSaveCommon)
                 }
+            }
+
+            override fun onFailure(call: Call<MoviesData>, t: Throwable) {
+                Log.e("Debug", t.message.toString())
+            }
+        })
+    }
+
+    fun getMoviesFilter(page: Int, genres: Int, countries: Int, ratingFrom : Int, ratingTo: Int, yearFrom: Int, yearTo: Int, type: String){
+
+        moviesApi.getMoviesFilter(page, genres, countries, ratingFrom, ratingTo, yearFrom, yearTo, type).enqueue(object : Callback<MoviesData> {
+            override fun onResponse(call: Call<MoviesData>, response: Response<MoviesData>) {
+                if (page == 1) moviesFilterSave.clear()
+                if (response.body() != null) moviesFilterSave += response.body()!!.items
+                _moviesFilter.postValue(moviesFilterSave)
             }
 
             override fun onFailure(call: Call<MoviesData>, t: Throwable) {
@@ -245,6 +266,7 @@ class MoviesActivityViewModel {
                 }
             })
         }
+        similarSave.clear()
     }
 
     fun getImages(movieId : Int){

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -88,7 +89,8 @@ SearchMovieAdapter.ItemClickListener {
 
     override fun onItemClick(id: Int) {
         val moviesDetailIntent = Intent(context, MoviesDetailActivity::class.java)
-        moviesDetailIntent.putExtra("userId", arguments?.getString("id"))
+        val idPref = requireActivity().getSharedPreferences("MySharedPref", AppCompatActivity.MODE_PRIVATE)
+        moviesDetailIntent.putExtra("userId", idPref.getString("userId", "").toString())
         moviesDetailIntent.putExtra("movieId", id)
         startActivity(moviesDetailIntent)
     }
